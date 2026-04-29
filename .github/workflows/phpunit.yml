@@ -47,7 +47,6 @@ jobs:
       - name: Copy .env
         run: cp .env.example .env.testing
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Generate key
         run: php artisan key:generate --env testing
@@ -56,4 +55,4 @@ jobs:
       - name: Set hostname
         run: sudo echo "127.0.0.1 mysql.test"  | sudo tee -a /etc/hosts
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        run: vendor/bin/phpunit
+        run: php -d memory_limit=-1 vendor/bin/phpunit --configuration phpunit.xml
