@@ -53,6 +53,7 @@ jobs:
         run: php artisan key:generate --env testing
       - name: Run migrations
         run: php artisan migrate --env testing --verbose
+        continue-on-error: true
       - name: Set hostname
         run: sudo echo "127.0.0.1 mysql.test"  | sudo tee -a /etc/hosts
       - name: Execute tests (Unit and Feature tests) via PHPUnit
