@@ -4,6 +4,7 @@ on:
   pull_request:
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   DB_HOST: mysql
   DB_DATABASE: example_app
   DB_USERNAME: sail
