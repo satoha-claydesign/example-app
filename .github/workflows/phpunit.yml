@@ -54,10 +54,9 @@ jobs:
       - name: Run migrations
         run: php artisan migrate --env testing --verbose
         continue-on-error: true
+      - name: Check database connection
+        run: php artisan tinker --execute="echo DB::connection()->getPdo();"
       - name: Set hostname
         run: sudo echo "127.0.0.1 mysql.test"  | sudo tee -a /etc/hosts
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        run: vendor/bin/phpunit 2>&1 | tee phpunit-output.log
-      - name: Show test output
-        if: always()
-        run: cat phpunit-output.log
+        run: vendor/bin/phpunit 2>&1 | head -100
