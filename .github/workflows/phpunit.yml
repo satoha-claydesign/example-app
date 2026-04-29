@@ -47,12 +47,12 @@ jobs:
       - name: Copy .env
         run: cp .env.example .env.testing
       - name: Install dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Generate key
         run: php artisan key:generate --env testing
       - name: Run migrations
-        run: php artisan migrate --env testing
+        run: php artisan migrate --env testing --verbose
       - name: Set hostname
         run: sudo echo "127.0.0.1 mysql.test"  | sudo tee -a /etc/hosts
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        run: php -d memory_limit=-1 vendor/bin/phpunit --configuration phpunit.xml
+        run: vendor/bin/phpunit --verbose
