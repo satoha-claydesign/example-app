@@ -4,22 +4,23 @@ on:
   pull_request:
 
 env:
+  DB_HOST: mysql
+  DB_DATABASE: example_app
   DB_USERNAME: sail
   DB_PASSWORD: password
   MAIL_FROM_ADDRESS: info@example.com
 
 jobs:
   phpunit:
-
     runs-on: ubuntu-latest
 
     services:
       mysql:
-        image: 'mysql/mysql-server:8.0'
+        image: "mysql/mysql-server:8.0"
         ports:
           - 3306:3306
         env:
-          MYSQL_DATABASE: 'example_app'
+          MYSQL_DATABASE: "example_app"
           MYSQL_USER: ${{ env.DB_USERNAME }}
           MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
           MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -30,11 +31,17 @@ jobs:
           --health-retries=3
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: "8.2"
           tools: composer:v2
       - name: Copy .env
         run: cp .env.example .env.testing
