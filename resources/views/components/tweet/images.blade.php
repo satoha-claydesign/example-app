@@ -3,7 +3,7 @@
 @if($images->count() > 0)
 <div class="mt-2 grid grid-cols-2 gap-2">
     @foreach($images as $image)
-    <img src="{{ asset('storage/images/' . $image->name) }}" alt="Tweet Image" class="w-full h-auto rounded-lg shadow">
+    <img src="{{ image_url($image->name) }}" alt="Tweet Image" class="w-full h-auto rounded-lg shadow">
     @endforeach
 </div>
 @endif
@@ -21,8 +21,8 @@
         <div @click.away="imagModal = ''" class="flex flex-col max-w-3xl max-h-full overflow-auto">
             <div class=" z-50">
                 <button @click="imagModal = ''" class="float-right pt-2 pr-2 outline-none focus:outline-none">
-                    <svg class="fill-current text-white h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20" fill="currentColor">
+                    <svg class="fill-current text-white h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                             clip-rule="evenodd" />
