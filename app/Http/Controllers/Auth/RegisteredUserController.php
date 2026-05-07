@@ -48,9 +48,17 @@ class RegisteredUserController extends Controller
 
         Auth::login($newUser);
 
-        $allUsers = User::get();
-        foreach ($allUsers as $user) {
-            $mailer->to($user->email)->send(new NewUserIntroduction($user, $newUser));
+        // Send introduction email to all users (only if mail is configured)
+        if (config('mail.username') && config('mail.password')) {
+            try {
+                $allUsers = User::get();
+                foreach ($allUsers as $user) {
+                    $mailer->to($user->email)->send(new NewUserIntroduction($user, $newUser));
+                }
+            } catch (\Exception $e) {
+                // Log the error but don't fail registration
+                \Log::error('Failed to send new user introduction email: ' . $e->getMessage());
+            }
         }
 
         return redirect(RouteServiceProvider::HOME);
