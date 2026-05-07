@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
-$appUrl = env('APP_URL', 'http://localhost');
+$appUrl = trim(env('APP_URL') ?: 'http://localhost');
 
-if ($appUrl && ! filter_var($appUrl, FILTER_VALIDATE_URL)) {
+if ($appUrl === '' || ! filter_var($appUrl, FILTER_VALIDATE_URL)) {
     if (preg_match('/^[A-Za-z0-9.-]+$/', $appUrl)) {
         $appUrl = 'https://' . trim($appUrl, '/');
     } else {
